@@ -1,6 +1,8 @@
 # LifeSciences
 Link to the pils github page: https://github.com/egonw/pils
 
+Link to JSON table website tutorial: https://www.encodedna.com/javascript/populate-json-data-to-html-table-using-javascript.htm
+
 Ideas:
   - Diabetes proteins
     - Insulin pathways
