@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Example</title>
+  <!-- Initialize a global WBK function -->
+  <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script>
+  <!-- Initialize a global wdk object using the WBK object -->
+  <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikidata-sdk.min.js"></script>
+  <!-- Import D3 visulaization library -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+  <div id="chart"></div>
+  <script>
+    query = `SELECT ?protein ?proteinLabel ?goBioprocessLabel ?goLocationLabel
+	 WHERE { 
+	?protein wdt:P31 wd:Q8054. 
+	?protein wdt:P703 wd:Q15978631. 
+	 VALUES ?goBioprocess {wd:Q14907008 wd:Q14906419}.
+  	?protein wdt:P682 ?goBioprocess.
+
+  	VALUES ?goLocation {wd:Q40260 wd:Q39572 wd:Q79899 wd:Q220599 wd:Q14349455}.
+  	?protein wdt:P681 ?goLocation.
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+	}`;
+    const url = wdk.sparqlQuery(query)
+    async function main () {
+      const response = await fetch(url)
+      const results = await response.json()
+      const simpleResults = wdk.simplify.sparqlResults(results)
+	  
+	  data=simpleResults;
+			tree = d3.nest()
+				.key(function(d) { return d.goLocationLabel; })
+				.key(function(d) { return d.goBioprocessLabel; })
+				.key(function(d) { return d.proteinLabel; })
+				.entries(simpleResults);
+			
+			// Create tree. 
+			packableTree = {key: data[0].proteinLabel, values: tree};
+
+			root = d3.hierarchy(packableTree, d => d.values).sum(() => 1)
+
+			var depthScale = d3.scaleOrdinal()
+				.range(["#5EAFC6", "#FE9922", "#93c464", "#75739F"])
+
+			var dimension = 900;
+		
+			var treeChart = d3.tree();
+			treeChart.size([dimension,dimension])
+
+			treeData = treeChart(root).descendants()
+
+			// Create main SVG canvas and initialize a group element for each node in the tree.
+			d3.select("#chart").append("svg")
+					.attr('width', dimension)
+					.attr('height', dimension)
+					.attr('transform', 'translate(0,0)')
+					.append("g")
+					.attr("id", "treeG")
+					.attr("transform", "translate(10,5)")
+					.selectAll("g")
+					.data(treeData)
+					.enter()
+					.append("g")
+					.attr("class", d => d.depth < 2  ? "vnode" : "lnode")
+					.attr("transform", d => `translate(${d.y},${d.x})`)
+
+			// Create a circle element for each node in the tree with a color based on the depth.
+			d3.selectAll("g[class*='node']")
+					.append("circle")
+					.attr("r", 10)
+					.style("fill", d => depthScale(d.depth))
+					.style("stroke", "white")
+					.style("stroke-width", "2px");
+
+			// Add text to the nodes of depth less than 2.
+			d3.selectAll("g.vnode")
+					.append("text")
+					.text(d => d.data.key)
+					.attr("transform", d => `translate(-5,-10)`)
+
+			// Add text to the nodes of depth 2.
+			d3.selectAll("g.lnode")
+					.append("text")
+					.text(d => d.data.key)
+					.attr("transform", d => `translate(10,0)`)
+					
+			// Draw the lines between the nodes.
+			d3.select("#treeG").selectAll("line")
+					.data(treeData.filter(function(d) { if( d.depth < 3) return d.parent }))
+					.enter().insert("line","g.vnode")
+					.attr("x1", d => d.parent.y)
+					.attr("y1", d => d.parent.x)
+					.attr("x2", d => d.y)
+					.attr("y2", d => d.x)
+					.style("stroke", "black")
+
+
+
+
+    }
+    main()
+  </script>
+</body>
+</html>
