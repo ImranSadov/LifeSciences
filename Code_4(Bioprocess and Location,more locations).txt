@@ -1,0 +1,17 @@
+#Number of humans in Wikidata
+#title: Number of humans in Wikidata
+SELECT ?protein ?proteinLabel ?goBioprocessLabel ?goLocationLabel
+WHERE
+{
+ 
+  ?protein wdt:P31 wd:Q8054 . 
+  ?protein wdt:P703 wd:Q15978631 .
+  
+  VALUES ?goBioprocess {wd:Q14907008 wd:Q14906419}.
+  ?protein wdt:P682 ?goBioprocess.
+
+  VALUES ?goLocation {wd:Q40260 wd:Q39572 wd:Q79899 wd:Q220599 wd:Q14349455}.
+  ?protein wdt:P681 ?goLocation.
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } # Helps get the label in your language, if not, then en language
+}
