@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Example</title>
+  <!-- Initialize a global WBK function -->
+  <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script>
+  <!-- Initialize a global wdk object using the WBK object -->
+  <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikidata-sdk.min.js"></script>
+</head>
+
+<body>
+  <pre id="output"></pre>
+  <script>
+    query = `SELECT ?protein ?proteinLabel ?goBioprocessLabel ?goLocationLabel
+	 WHERE { 
+	?protein wdt:P31 wd:Q8054. 
+	?protein wdt:P703 wd:Q15978631. 
+	 VALUES ?goBioprocess {wd:Q14907008 wd:Q14906419}.
+  	?protein wdt:P682 ?goBioprocess.
+
+  	VALUES ?goLocation {wd:Q40260 wd:Q39572 wd:Q79899 wd:Q220599 wd:Q14349455}.
+  	?protein wdt:P681 ?goLocation.
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+	}`;
+    const url = wdk.sparqlQuery(query)
+    async function main () {
+      const response = await fetch(url)
+      const results = await response.json()
+      const simpleResults = wdk.simplify.sparqlResults(results)
+      document.getElementById('output').innerHTML =
+        JSON.stringify(simpleResults, undefined, 2);
+    }
+    main()
+  </script>
+</body>
+</html>
