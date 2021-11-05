@@ -1,4 +1,6 @@
 # LifeSciences
+Link to the pils github page: https://github.com/egonw/pils
+
 Ideas:
   - Diabetes proteins
     - Insulin pathways
