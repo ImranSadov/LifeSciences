@@ -1,0 +1,13 @@
+#Number of humans in Wikidata
+#title: Number of humans in Wikidata
+SELECT ?protein ?goLabel
+WHERE
+{
+  ?protein wdt:P31 wd:Q8054 . 
+  ?protein wdt:P703 wd:Q15978631 .
+  {?protein wdt:P682 wd:Q14907008.}
+  UNION
+  {?protein wdt:P682 wd:Q14906419.}
+  
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } # Helps get the label in your language, if not, then en language
+}
