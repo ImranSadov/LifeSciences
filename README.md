@@ -18,3 +18,5 @@ https://www.uniprot.org/uniprot/?query=cellular+AND+senescence+AND+organism%3A%2
 
 We have found upregulated proteins and downregulated proteins in connection with the cellular senescence in humans in Wikidata.
 We can visualize these two groups based on their locations in cell. The proteins will be listed with a drop down menu or tree chart.
+
+Link to website where we got the image of the cell from: https://fineartamerica.com/featured/animal-cell-diagram-science-source.html
