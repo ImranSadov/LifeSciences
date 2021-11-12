@@ -19,6 +19,8 @@
         <option value="wd:Q79899">cytoplasm</option>
         <option value="wd:Q220599">cytosol</option>
         <option value="wd:Q14349455">membrane</option>
+	<option value="wd:Q79927">membrane</option>
+	<option value="wd:Q83181">membrane</option>
     </select>
     <p>
     <label for="type">Type of regulation in cellular senescence:</label>
