@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Proteins involved in cellular senescence</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Initialize a global WBK function -->
+    <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script>
+    <!-- Initialize a global wdk object using the WBK object -->
+    <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikidata-sdk.min.js"></script>
+</head>
+
+<body>
+<h1>Proteins involved in cellular senescence</h1>
+
+<p>
+
+<!-- Drop down menu for choosing a location-->
+<div>
+    <label for="locations">Choose a location in the cell:</label>
+    <select name="locations" id="locations">
+        <option value="wd:Q40260">nucleus</option>
+        <option value="wd:Q39572">mitochondrion</option>
+        <option value="wd:Q79899">cytoplasm</option>
+        <option value="wd:Q220599">cytosol</option>
+        <option value="wd:Q14349455">membrane</option>
+	    <option value="wd:Q79927">endoplasmic reticulum</option>
+	    <option value="wd:Q83181">Golgi apparatus</option>
+    </select>
+    <p>
+        <img id="wd:Q40260" src=Pictures/NucleusLabel.jpg alt="NucleusInCell" width="658" height="525">
+        <img id="wd:Q39572" src=Pictures/MitochondriaLabel.jpg alt="MitochondriaInCell" width="658" height="525" >
+        <img id="wd:Q79899" src=Pictures/CytoplasmLabel.jpg alt="CytoplasmInCell" width="658" height="525" >
+        <img id="wd:Q220599" src=Pictures/CytosolLabel.jpg alt="CytosolInCell" width="658" height="525" >
+        <img id="wd:Q14349455" src=Pictures/MembraneLabel.jpg alt="MembraneInCell" width="658" height="525" >
+        <img id="wd:Q79927" src=Pictures/ERLabel.jpg alt="ERInCell" width="658" height="525" >
+        <img id="wd:Q83181" src=Pictures/GolgiLabel.jpg alt="GolgiInCell" width="658" height="525" >
+    <p>
+
+<script>
+
+// Hide all the images.
+    document.getElementById("wd:Q40260").style.display='none';
+    document.getElementById("wd:Q39572").style.display='none';
+    document.getElementById("wd:Q79899").style.display='none';
+    document.getElementById("wd:Q220599").style.display='none';
+    document.getElementById("wd:Q14349455").style.display='none';
+    document.getElementById("wd:Q79927").style.display='none';
+    document.getElementById("wd:Q83181").style.display='none';
+
+// Hide all images again, then reveal ONLY the location chosen from the drop-down menu
+    $("#locations").change(function(){
+
+        document.getElementById("wd:Q40260").style.display='none';
+        document.getElementById("wd:Q39572").style.display='none';
+        document.getElementById("wd:Q79899").style.display='none';
+        document.getElementById("wd:Q220599").style.display='none';
+        document.getElementById("wd:Q14349455").style.display='none';
+        document.getElementById("wd:Q79927").style.display='none';
+        document.getElementById("wd:Q83181").style.display='none';
+
+        var imgId = $("#locations").val();
+        document.getElementById(imgId).style.display='block';
+    });
+</script>
+<!-- Selection for positive or negative regulation-->
+    <label for="type">Type of regulation in cellular senescence:</label>
+
+    <select name="type" id="type">
+        <option value="wd:Q14907008">positive</option>
+        <option value="wd:Q14906419">negative</option>
+    </select>
+    <p>
+    <input id="submit" type="button" value="List Proteins">
+</div>
+
+<div>
+    <ol id="list_of_proteins">
+    </ol>
+
+<!-- SPARQL query and button to show proteins in a numbered list-->
+</div>
+<script>
+    $("#submit").click(async function() {
+        $("#list_of_proteins").empty();
+        const location = $('#locations').val();
+        const type = $('#type').val();
+        const wdquery = `SELECT ?proteinLabel
+	 WHERE {
+	?protein wdt:P31 wd:Q8054.
+	?protein wdt:P703 wd:Q15978631.
+	 VALUES ?goBioprocess {${type}}.
+  	?protein wdt:P682 ?goBioprocess.
+
+  	VALUES ?goLocation {${location}}.
+  	?protein wdt:P681 ?goLocation.
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+	}`;
+        const url = wdk.sparqlQuery(wdquery)
+        const response = await fetch(url)
+        const results = await response.json()
+        const proteinList = wdk.simplify.sparqlResults(results)
+        proteinList.forEach(function(protein) {
+            $("#list_of_proteins").append($("<li>").text(protein.proteinLabel));
+        });
+    });
+</script>
+</body>
+</html>
