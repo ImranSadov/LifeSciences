@@ -1,0 +1,86 @@
+---
+layout: page
+title: 'Proteins Involved in Cellular Senescence'
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Proteins involved in cellular senescence</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Initialize a global WBK function -->
+    <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script>
+    <!-- Initialize a global wdk object using the WBK object -->
+    <script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikidata-sdk.min.js"></script>
+    <link rel="stylesheet" href="mystyle.css">
+</head>
+
+<body>
+<h1 class="label header">Here you can search for the proteins!</h1>
+<p>
+<img src=https://lh3.googleusercontent.com/ywEwLRp6VLq8X1P2PBaX77Z465VBiHhYhbRiX7Xco1F6s55zFsyuod1_ajhdylk-JrOo-7JM3uj73G2hrzVcmZcHpuvxhfZw36M70O8H3PYegpgM65Vzn9dpM6eQEYAFgwonJjeqnQ=w2400 alt="Cell" width="658" height="525">
+<p>
+<div>
+
+    <table class="comicGreen">
+    <tbody>
+    <tr>
+    <td>Choose a location in the cell:</td>
+    <td>    
+    <select class="label success" name="locations" id="locations">
+        <option value="wd:Q40260">nucleus</option>
+        <option value="wd:Q39572">mitochondrion</option>
+        <option value="wd:Q79899">cytoplasm</option>
+        <option value="wd:Q220599">cytosol</option>
+        <option value="wd:Q14349455">membrane</option>
+	<option value="wd:Q79927">endoplasmic reticulum</option>
+	<option value="wd:Q83181">Golgi apparatus</option>
+    </select>
+    </td>
+    </tr>
+    <tr>
+    <td>Type of regulation in cellular senescence:</td>
+    <td>
+        <select class="label success"name="type" id="type">
+        <option value="wd:Q14907008">positive</option>
+        <option value="wd:Q14906419">negative</option>
+    </select>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+
+    <p>
+    <input id="submit" type="button" class="label info" value="List Proteins">
+</div>
+
+<div>
+    <ol id="list_of_proteins">
+    </ol>
+</div>
+<script>
+    $("#submit").click(async function() {
+        $("#list_of_proteins").empty();
+        const location = $('#locations').val();
+        const type = $('#type').val();
+        const wdquery = `SELECT ?proteinLabel
+	 WHERE {
+	?protein wdt:P31 wd:Q8054.
+	?protein wdt:P703 wd:Q15978631.
+	 VALUES ?goBioprocess {${type}}.
+  	?protein wdt:P682 ?goBioprocess.
+
+  	VALUES ?goLocation {${location}}.
+  	?protein wdt:P681 ?goLocation.
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+	}`;
+        const url = wdk.sparqlQuery(wdquery)
+        const response = await fetch(url)
+        const results = await response.json()
+        const proteinList = wdk.simplify.sparqlResults(results)
+        proteinList.forEach(function(protein) {
+            $("#list_of_proteins").append($("<li>").text(protein.proteinLabel));
+        });
+    });
+</script>
+</body>
+</html>
