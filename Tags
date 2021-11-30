@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: page 
 ---
 
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <!-- initiating HTML file -->
+<html lang="en"> <!-- setting the lang to eng, important for "autocorrect" and default language -->
 <head>
 	<!-- Set-up for the title -->
 	<h1 class="title test">Proteins involved in cellular senescence</h1>
