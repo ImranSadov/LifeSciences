@@ -98,36 +98,36 @@ layout: page
 		else if (type == "blank") // type of regulation wasn't picked
 			$("#list_of_proteins").text("Error: You did not select a type of regulation."); // $("#list_of_proteins").text converting the list into text, the list was originally empty ($("#list_of_proteins").empty();)
 		// Wikidata query to retrieve protein information    
-		else {
-			const wdquery = `SELECT ?proteinLink ?proteinLinkLabel
+		else { // if all of the "checks" have been passed then the sparql query will run (still jquery)
+			const wdquery = `SELECT ?proteinLink ?proteinLinkLabel # sparql query, proteinLink = , proteinLinkLabel=
 			WHERE {
-				?proteinLink wdt:P31 wd:Q8054.
-				?proteinLink wdt:P703 wd:Q15978631.
-				 VALUES ?goBioprocess {${type}}. // search for values of goBioprocess and store it in type
-				?proteinLink wdt:P682 ?goBioprocess.
-				VALUES ?goLocation {${location}}.
-				?proteinLink wdt:P681 ?goLocation.
-				SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-			}`;
-			const url = wdk.sparqlQuery(wdquery)
-			const response = await fetch(url)
-			const results = await response.json()
-			const proteinList = wdk.simplify.sparqlResults(results)
+				?proteinLink wdt:P31 wd:Q8054. # instance of protein 
+				?proteinLink wdt:P703 wd:Q15978631. # found in taxon homo sapiens
+				 VALUES ?goBioprocess {${type}}. # search for values of goBioprocess and store it in type, assigning a value to ?goBioprocess, types were all positive or negative regulation of cellular senesence
+				?proteinLink wdt:P682 ?goBioprocess. # wdt:P682 = biological process, proteinLink (proteins) which we previously said needs to be homo sapines also needs to be involved in biological process
+				VALUES ?goLocation {${location}}. # goLocation = 
+				?proteinLink wdt:P681 ?goLocation. # adding the location codes (membrane, golgi, ER ...)
+				SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } # default, taking the english name of what we have been searching for
+			}`; /* reformatting the data so it is usable */
+			const url = wdk.sparqlQuery(wdquery) /* search the URL constant, search the sparql query we made above */
+			const response = await fetch(url) /* needed to request a particular thing (URL in our case), needed to get any result, await to stop the async, result after URL search */
+			const results = await response.json() /* for the results to be given as text in json file, additional variable result which will take the response and turn it into json */ 
+			const proteinList = wdk.simplify.sparqlResults(results) /* made another constant proteinList, simplification of the results, from json to individual rows, truncates the json */
 
-			// Statement to return an answer if you choose a location with no proteins.
-			if (proteinList.length == 0)
-			     $("#list_of_proteins").text("There are no proteins of this type in this location.");
+			/* Statement to return an answer if you choose a location with no proteins. */
+			if (proteinList.length == 0) /* if the length is 0, there are no proteins in this location */
+			     $("#list_of_proteins").text("There are no proteins of this type in this location."); 
 
-			// Print a numbered list of proteins in requested location, and embed a hyperlink to each protein's Wikidata page    
+			/* Print a numbered list of proteins in requested location, and embed a hyperlink to each protein's Wikidata page */   
 			proteinList.forEach(function(protein) {
-			    $("#list_of_proteins").append('<li><a target="_blank" href="https://wikidata.org/wiki/'+protein.proteinLink.value+'">'+protein.proteinLink.label+'</a></li>');
+			    $("#list_of_proteins").append('<li><a target="_blank" href="https://wikidata.org/wiki/'+protein.proteinLink.value+'">'+protein.proteinLink.label+'</a></li>'); /* in order to have text as a link, <a>=hyperlink */
 			});
 		}
 	});
 
-	// Hide all the imported images
-	document.getElementById("basic").style.display='block';	
-   	document.getElementById("wd:Q40260").style.display='none';
+	// Hide all the imported images except the basic (one with no labels)
+	document.getElementById("basic").style.display='block';	// document.getElementById go find the element with id in the brakcet, id is one for image id, style.display is how the image is presented
+   	document.getElementById("wd:Q40260").style.display='none'; // 'none' completely removing the photo
    	document.getElementById("wd:Q39572").style.display='none';
    	document.getElementById("wd:Q79899").style.display='none';
    	document.getElementById("wd:Q220599").style.display='none';
@@ -136,8 +136,8 @@ layout: page
     	document.getElementById("wd:Q83181").style.display='none';
 
 	// Hide all images again, then reveal ONLY the location chosen from the drop-down menu
-	$("#locations").change(function(){
-        	document.getElementById("basic").style.display='none';
+	$("#locations").change(function(){ /* based on the selection of your location, it will do something differently */
+        	document.getElementById("basic").style.display='none'; /* hiding everything again including no display labels */
 		document.getElementById("wd:Q40260").style.display='none';
         	document.getElementById("wd:Q39572").style.display='none';
         	document.getElementById("wd:Q79899").style.display='none';
@@ -146,19 +146,19 @@ layout: page
         	document.getElementById("wd:Q79927").style.display='none';
         	document.getElementById("wd:Q83181").style.display='none';
 
-		var imgId = $("#locations").val();
-		document.getElementById(imgId).style.display='block';
+		var imgId = $("#locations").val(); // creating a variable called imgId which is equal to selected location from the dropdown menu
+		document.getElementById(imgId).style.display='block'; /* getting the image that corresponds to image id, presenting that image, setting it to block display */
 	});	
 	
 	// Color the button for downregulated option in red, and the option for upregulated in green
-	$("#type").change(function(){
-		var typeval = $("#type").val();
-		if (typeval == "blank") {
-			document.getElementById("type").style.backgroundColor='#DCDCDC';
-		} else if (typeval == "wd:Q14907008") {
-			document.getElementById("type").style.backgroundColor='#00E600';
-		} else if (typeval =="wd:Q14906419") {
-			document.getElementById("type").style.backgroundColor='red';
+	$("#type").change(function(){ /* listener */
+		var typeval = $("#type").val(); /* type of regulation you picked and then it will make a change, variable typeval created */
+		if (typeval == "blank") { /* if typeval is blank */
+			document.getElementById("type").style.backgroundColor='#DCDCDC'; /* change color to grey */
+		} else if (typeval == "wd:Q14907008") { /* if selection is upregulated */
+			document.getElementById("type").style.backgroundColor='#00E600'; /* change dropdown menu to shade of green */
+		} else if (typeval =="wd:Q14906419") { /* if selection is downregulated */
+			document.getElementById("type").style.backgroundColor='red'; /* change dropdown menu to red */
 		}
 	});
 </script>
