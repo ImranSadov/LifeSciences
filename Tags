@@ -4,7 +4,7 @@ layout: page
 
 <!DOCTYPE html> <!-- initiating HTML file -->
 <html lang="en"> <!-- setting the lang to eng, important for "autocorrect" and default language -->
-<head>
+<head> <!-- whenever you want to import a library you have start with <head> and import them within <head> ... </head>, for technical data of the web page -->
 	<!-- Set-up for the title -->
 	<h1 class="title test">Proteins involved in cellular senescence</h1>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
