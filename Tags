@@ -9,27 +9,27 @@ layout: page
 	<h1 class="title test">Proteins involved in cellular senescence</h1> <!-- refering to the mystyle.css, <h...> and </h...> for headings -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<!-- Initialize a global WBK function -->
-	<script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script>
+	<script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script> <!-- ? -->
 	<!-- Initialize a global wdk object using the WBK object -->
 	<script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikidata-sdk.min.js"></script> <!-- imports sparql endpoint (bridge between database and sparql query) from wikidata -->
-	<link rel="stylesheet" href="/assets/css/mystyle.css">
-</head>
+	<link rel="stylesheet" href="/assets/css/mystyle.css"> <!-- link to external style sheet in css -->
+</head> <!-- end of head section -->
 	
-<body>
-<div>	
+<body> <!-- beginning of body section -->
+<div> <!-- makes a space, to break up the code, if you want to manipulate everything in the same compartment, any kind of contenct can be put inside the <div> tag -->
 	<!-- Set-up for the subtitle -->
-	<p><p>
-	<h2>Search for the proteins!</h2>
+	<p><p> <!-- double space between title and subtitle -->
+	<h2>Search for the proteins!</h2> <!-- subtitle on the website -->
 	<p>
 	<!-- Create table -->
-	 <table class="comicGreen">
-	    <tbody>
+	 <table class="comicGreen"> <!-- refering to style.css, "comicGreen" is the template for the whole table, not just the color -->
+	    <tbody> <!-- the code after this line is inside the table (object) -->
 
 	<!-- First row of the table -->
 	<tr>
 	<td>Choose a location in the cell:</td>
 	<td>    
-		<select class="label success" name="locations" id="locations">
+		<select class="label success" name="locations" id="locations"> 
 			<option value="basic">- select -</option>
 			<option value="wd:Q40260">Nucleus</option>
 			<option value="wd:Q39572">Mitochondria</option>
@@ -62,7 +62,7 @@ layout: page
 	<tr>
 	<td>Choose a type of regulation:</td>
 	<td>
-		<select class="label grey"name="type" id="type">
+		<select class="label grey"name="type" id="type"> <!-- template for the label grey, it's called grey because of the default color -->
 			<option value="blank">- select -</option>
 			<option value="wd:Q14907008">Upregulated</option>
 			<option value="wd:Q14906419">Downregulated</option>
