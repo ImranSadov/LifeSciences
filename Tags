@@ -78,26 +78,25 @@ layout: page
 </div>
 
 <div>
-    <ol id="list_of_proteins">
+    <ol id="list_of_proteins"> <!-- creating the list that is populated by proteins, ol=ordered list -->
     </ol>
-</div>
+</div> 
 	
-<script>
+<script> 
 	// Error codes in case the user has not entered a correct response, followed by the SPARQL query
-	$("#submit").click(async function() {
-		$("#list_of_proteins").empty();
-		const location = $('#locations').val();
-		const type = $('#type').val();
+	$("#submit").click(async function() { // jquery, when you click the submit button it will do the ..., async function=asynchronous, this code doesn't have to be run in order, reduces the waiting time
+		$("#list_of_proteins").empty(); // setting the list of proteins to be empty
+		const location = $('#locations').val(); // defining the constants jquery will use, set to be equal to jquery defined before, html element location
+		const type = $('#type').val(); 
 
-		if (type == "blank" && location == "basic")
-			$("#list_of_proteins").text("Error: You did not select a location or a type of regulation.");
+		if (type == "blank" && location == "basic") // location and type need to be defined inside jquery
+			$("#list_of_proteins").text("Error: You did not select a location or a type of regulation."); // error displayed
 
-		else if (location == "basic")
-			$("#list_of_proteins").text("Error: You did not select a location.");
+		else if (location == "basic") // the location wasn't picked
+			$("#list_of_proteins").text("Error: You did not select a location."); 
 
-		else if (type == "blank")
-			$("#list_of_proteins").text("Error: You did not select a type of regulation.");
-
+		else if (type == "blank") // type of regulation wasn't picked
+			$("#list_of_proteins").text("Error: You did not select a type of regulation."); // $("#list_of_proteins").text converting the list into text, the list was originally empty ($("#list_of_proteins").empty();)
 		// Wikidata query to retrieve protein information    
 		else {
 			const wdquery = `SELECT ?proteinLink ?proteinLinkLabel
