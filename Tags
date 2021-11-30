@@ -9,7 +9,7 @@ layout: page
 	<h1 class="title test">Proteins involved in cellular senescence</h1> <!-- refering to the mystyle.css, <h...> and </h...> for headings -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<!-- Initialize a global WBK function -->
-	<script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script> <!-- ? -->
+	<script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikibase-sdk.min.js"></script> <!-- required for connecting wikidata information to our website -->
 	<!-- Initialize a global wdk object using the WBK object -->
 	<script src="https://cdn.rawgit.com/maxlath/wikidata-sdk/dist/dist/wikidata-sdk.min.js"></script> <!-- imports sparql endpoint (bridge between database and sparql query) from wikidata -->
 	<link rel="stylesheet" href="/assets/css/mystyle.css"> <!-- link to external style sheet in css -->
@@ -26,21 +26,21 @@ layout: page
 	    <tbody> <!-- the code after this line is inside the table (object) -->
 
 	<!-- First row of the table -->
-	<tr>
-	<td>Choose a location in the cell:</td>
-	<td>    
-		<select class="label success" name="locations" id="locations"> 
-			<option value="basic">- select -</option>
-			<option value="wd:Q40260">Nucleus</option>
-			<option value="wd:Q39572">Mitochondria</option>
+	<tr> <!-- table row -->
+	<td>Choose a location in the cell:</td> <!-- <td> is for the opening up of the first column in the table, standard data cell -->
+	<td> <!-- adding the second column -->     
+		<select class="label success" name="locations" id="locations"> <!-- select calss of label success which its own attribute in the mystyle.css file, name and id are required by HTML, we refer to locations later in sparql query, select class also creates drop down menu -->   
+			<option value="basic">- select -</option> <!-- creating a select button -->
+			<option value="wd:Q40260">Nucleus</option> <!-- option available in the table -->
+			<option value="wd:Q39572">Mitochondria</option> <!-- <option> how we're defining section, section for one option -->
 			<option value="wd:Q79899">Cytoplasm</option>
 			<option value="wd:Q220599">Cytosol</option>
 			<option value="wd:Q14349455">Membrane</option>
 			<option value="wd:Q79927">Endoplasmic reticulum</option>
 			<option value="wd:Q83181">Golgi apparatus</option>
-		</select>
-	</td>	
-	</tr>
+		</select> <!-- end of the drop down menu -->
+	</td> <!-- we end data cell -->
+	</tr> <!-- we end the rows -->
 		    
 	<!-- Second row of the table, imports all the necessary images -->
 	<tr>
