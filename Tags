@@ -44,9 +44,9 @@ layout: page
 		    
 	<!-- Second row of the table, imports all the necessary images -->
 	<tr>
-	<td>Here is where your proteins can be found:</td>
-	<td>
-		<img id="basic" src="/assets/Pictures/BasicCell.jpg" alt="BasicCell" width="369" height="282">  
+	<td>Here is where your proteins can be found:</td> <!-- new data cell -->
+	<td> <!-- now column that will have images imported -->
+		<img id="basic" src="/assets/Pictures/BasicCell.jpg" alt="BasicCell" width="369" height="282"> <!-- image id (naming the image in the code), src (where you are getting the image from), alt (what text will appear in case the image is not loaded), width and height (restricting image sizes - for table formatting) --> 
 		<img id="wd:Q40260" src="/assets/Pictures/NucleusLabel.jpg" alt="NucleusInCell" width="369" height="282">
 		<img id="wd:Q39572" src="/assets/Pictures/MitochondriaLabel.jpg" alt="MitochondriaInCell" width="369" height="282">
 		<img id="wd:Q79899" src="/assets/Pictures/CytoplasmLabel.jpg" alt="CytoplasmInCell" width="369" height="282">
@@ -54,26 +54,25 @@ layout: page
 		<img id="wd:Q14349455" src="/assets/Pictures/MembraneLabel.jpg" alt="MembraneInCell" width="369" height="282">
 		<img id="wd:Q79927" src="/assets/Pictures/ERLabel.jpg" alt="ERInCell" width="369" height="282">
 		<img id="wd:Q83181" src="/assets/Pictures/GolgiLabel.jpg" alt="GolgiInCell" width="369" height="282">
-		<p>
-	</td>
-	</tr>
+	</td> <!-- column is being closed -->
+	</tr> <!-- row is closed as well -->
 		    
 	<!-- Third row of the table -->	    
-	<tr>
-	<td>Choose a type of regulation:</td>
-	<td>
-		<select class="label grey"name="type" id="type"> <!-- template for the label grey, it's called grey because of the default color -->
-			<option value="blank">- select -</option>
-			<option value="wd:Q14907008">Upregulated</option>
+	<tr> <!-- starting the 3rd row -->
+	<td>Choose a type of regulation:</td> <!-- starting and closing a new column -->
+	<td> <!-- starting a new column -->
+		<select class="label grey"name="type" id="type"> <!-- dropdown menu created (select class), template for the label grey, it's called grey because of the default color, type is created here and called later in sparql query --> 
+			<option value="blank">- select -</option> <!-- if nothing is chosen select is written in the dropdown menu -->
+			<option value="wd:Q14907008">Upregulated</option> <!-- calling information from sparql query and mystyle.css file (because class="label grey" was defined) -->
 			<option value="wd:Q14906419">Downregulated</option>
-		</select>
-	</td>
-	</tr>
-</tbody>
-</table>
+		</select> <!-- end of drop down menu -->
+	</td> <!-- closing the data cell -->
+	</tr> <--! closing the table row -->
+</tbody> <!-- closing table body -->
+</table> <!-- closing table -->
 
 <p>
-<input id="submit" type="button" class="label success" value="List Proteins">
+<input id="submit" type="button" class="label success" value="List Proteins"> <!-- creating the submit button, class is relating back to mystyle.css, value is what text is shown on the button -->
 </p>
 	
 </div>
@@ -105,7 +104,7 @@ layout: page
 			WHERE {
 				?proteinLink wdt:P31 wd:Q8054.
 				?proteinLink wdt:P703 wd:Q15978631.
-				 VALUES ?goBioprocess {${type}}.
+				 VALUES ?goBioprocess {${type}}. // search for values of goBioprocess and store it in type
 				?proteinLink wdt:P682 ?goBioprocess.
 				VALUES ?goLocation {${location}}.
 				?proteinLink wdt:P681 ?goLocation.
