@@ -29,7 +29,7 @@ layout: page
 	<tr> <!-- table row -->
 	<td>Choose a location in the cell:</td> <!-- <td> is for the opening up of the first column in the table, standard data cell -->
 	<td> <!-- adding the second column -->     
-		<select class="label success" name="locations" id="locations"> <!-- select calss of label success which its own attribute in the mystyle.css file, name and id are required by HTML, we refer to locations later in sparql query, select class also creates drop down menu -->   
+		<select class="label grey" name="locations" id="locations"> <!-- select calss of label success which its own attribute in the mystyle.css file, name and id are required by HTML, we refer to locations later in sparql query, select class also creates drop down menu -->   
 			<option value="basic">- select -</option> <!-- creating a select button -->
 			<option value="wd:Q40260">Nucleus</option> <!-- option available in the table -->
 			<option value="wd:Q39572">Mitochondria</option> <!-- <option> how we're defining section, section for one option -->
