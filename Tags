@@ -22,7 +22,7 @@ layout: page
 	<h2>Search for the proteins!</h2> <!-- subtitle on the website -->
 	<p>
 	<!-- Create table -->
-	 <table class="comicGreen"> <!-- refering to style.css, "comicGreen" is the template for the whole table, not just the color -->
+	 <table class="search"> <!-- refering to style.css, "comicGreen" is the template for the whole table, not just the color -->
 	    <tbody> <!-- the code after this line is inside the table (object) -->
 
 	<!-- First row of the table -->
