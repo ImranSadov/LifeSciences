@@ -99,7 +99,7 @@ layout: page
 			$("#list_of_proteins").text("Error: You did not select a type of regulation."); // $("#list_of_proteins").text converting the list into text, the list was originally empty ($("#list_of_proteins").empty();)
 		// Wikidata query to retrieve protein information    
 		else { // if all of the "checks" have been passed then the sparql query will run (still jquery)
-			const wdquery = `SELECT ?proteinLink ?proteinLinkLabel # sparql query, proteinLink = , proteinLinkLabel=
+			const wdquery = `SELECT ?proteinLink ?proteinLinkLabel # this part creates a variable called "wdquery" and stores the whole sparql query (spanning multiple lines) in it
 			WHERE {
 				?proteinLink wdt:P31 wd:Q8054. # instance of protein 
 				?proteinLink wdt:P703 wd:Q15978631. # found in taxon homo sapiens
